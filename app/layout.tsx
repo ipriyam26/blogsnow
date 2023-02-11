@@ -1,10 +1,19 @@
 import './globals.css'
+import { Inter } from '@next/font/google'
+import Header from './Header'
+
+
+export const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+})
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+
   return (
     <html lang="en">
       {/*
@@ -12,7 +21,16 @@ export default function RootLayout({
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body>{children}</body>
+      <body>
+
+        <Header></Header>
+        <div>
+          {children}
+
+        </div>
+
+      </body>
+
     </html>
   )
 }
