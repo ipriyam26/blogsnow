@@ -1,6 +1,6 @@
 
 
-import React from 'react'
+import React, { Children } from 'react'
 import { Inter } from '@next/font/google'
 import { Localnav } from './Localnav';
 const inter = Inter({ subsets: ['latin'] })
@@ -25,27 +25,32 @@ function Subscribe() {
 
 
 
-function Home() {
+function Home({
+    children,
+}: {
+    children: React.ReactNode
+}) {
     // const router = ();
     // get current route
     return (
 
-        <div className={`my-10 lg:my-20 ${inter.className}  lg:mx-28 flex flex-col items-center lg:items-stretch`}>
-            <div className="flex flex-col space-y-5 lg:space-y-0 lg:flex-row items-center lg:items-start justify-between">
-                <h3 className={` text-5xl lg:text-6xl font-semibold`} >Untitled Blog</h3>
-                <p className='lg:w-2/5 bg-yellow-50 mx-5 lg:mx-0 text-lg text-slate-700 font-medium'>
-                    New product features, updates, and the latest tech news, delivered.
-                </p>
+        <div className={`py-16 lg:py-20 ${inter.className}  lg:px-28 flex flex-col items-center lg:items-stretch`}>
+            <div className='py-20 flex flex-col items-center lg:items-stretch'>
+                <div className="flex  flex-col space-y-5 lg:space-y-0 lg:flex-row items-center lg:items-start justify-between">
+                    <h3 className={` text-5xl lg:text-6xl font-semibold`} >Untitled Blog</h3>
+                    <p className='lg:w-2/5  mx-5 lg:mx-0 text-lg text-slate-700 font-medium'>
+                        New product features, updates, and the latest tech news, delivered.
+                    </p>
+                </div>
+                <div>
+                </div>
+                <section className="bg-white lg:w-1/3 w-3/5 my-10 ">
+                    <Subscribe></Subscribe>
+                </section>
             </div>
-            <div>
-
-            </div>
-            <section className="bg-white lg:w-1/3 w-3/5 my-10 ">
-                <Subscribe></Subscribe>
-            </section>
 
             <Localnav></Localnav>
-
+            {children}
         </div>
 
     )
