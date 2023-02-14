@@ -21,22 +21,22 @@ export default function Header() {
     <Disclosure as="nav" className="">
       {({ open }) => (
         <>
-          <div className="mx-20 max-w-7xl  px-2 sm:px-6 lg:px-8">
-            <div className="relative flex  h-16 items-center justify-between">
-              <div className="absolute inset-y-0 left-0 flex items-center   sm:hidden">
+          <div className=" md:mx-10 mx-5 max-w-7xl px-2 sm:px-6 lg:px-8">
+            <div className="relative flex   h-16 items-center justify-between">
+              <div className="absolute inset-y-0 right-0 flex items-center justify-end   sm:hidden">
                 {/* Mobile menu button*/}
-                <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                <Disclosure.Button className="inline-flex items-center   justify-end rounded-md p-2 text-gray-900 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="sr-only">Open main menu</span>
                   {open ? (
-                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                    <XMarkIcon className="block justify-end h-6 w-6" aria-hidden="true" />
                   ) : (
-                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                    <Bars3Icon className="block  justify-end h-6 w-6" aria-hidden="true" />
                   )}
                 </Disclosure.Button>
               </div>
               <div className="flex  flex-1 items-center justify-start sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-  
+
 
                   <img
                     className="block h-8 w-auto lg:hidden"
@@ -49,11 +49,12 @@ export default function Header() {
                     alt="Your Company"
                   />
                 </div>
+                <h3 className={`font-medium ${inter.className} mx-8  text-gray-900 lg:block lg:pr-8  text-2xl `}>
+                  Untitled UI
+                </h3>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className={`flex space-x-6 ${inter.className}`}>
-<h3 className='font-medium pr-8 sm:hidden lg:block lg:pr-8 py-1 text-xl '>
-  Untitled UI
-</h3>
+
 
                     {navigation.map((item) => (
                       <a
@@ -71,11 +72,11 @@ export default function Header() {
                   </div>
                 </div>
               </div>
-              
+
             </div>
           </div>
 
-          <Disclosure.Panel className="sm:hidden">
+          <Disclosure.Panel className={`sm:hidden ${inter.className}`}>
             <div className="space-y-1 px-2 pt-2 pb-3">
               {navigation.map((item) => (
                 <Disclosure.Button
@@ -83,7 +84,7 @@ export default function Header() {
                   as="a"
                   href={item.href}
                   className={classNames(
-                    item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                    item.current ? 'bg-gray-900 text-white' : 'hover:bg-gray-700 hover:text-white text-black',
                     'block px-3 py-2 rounded-md text-base font-medium'
                   )}
                   aria-current={item.current ? 'page' : undefined}

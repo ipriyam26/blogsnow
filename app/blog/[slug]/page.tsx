@@ -1,10 +1,9 @@
-
 import React from 'react'
 
-function Development() {
+function Page() {
   return (
     <div>page</div>
   )
 }
 
-export default Development
+export default Page

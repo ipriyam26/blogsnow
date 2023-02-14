@@ -42,7 +42,12 @@ const category = faker.random.word();
 }
 
 
-function All() {
+function Page({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  console.log(params.slug);
   return (
     <div className={` ${inter.className} my-10 grid grid-cols-1 auto-rows-min lg:grid-cols-2 gap-4`} style={{ gap: '0' }}>
       {
@@ -95,4 +100,4 @@ function All() {
   )
 }
 
-export default All
+export default Page
