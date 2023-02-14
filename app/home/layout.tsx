@@ -16,7 +16,7 @@ function Subscribe() {
                 <input className="block p-3 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-xl border border-gray-300 sm:rounded-none sm:rounded-l-3xl focus:ring-primary-500 focus:border-primary-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Enter your email" type="email" id="email" required />
             </div>
             <div>
-                <button type="submit" className="py-3 px-5 w-full text-sm font-medium text-center text-white rounded-xl border cursor-pointer bg-gray-900 border-primary-600 sm:rounded-none sm:rounded-r-3xl hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Subscribe</button>
+                <button type="submit" className="py-3 px-5 w-full text-sm font-medium text-center text-white rounded-xl border cursor-pointer bg-purple-500 border-primary-600 sm:rounded-none sm:rounded-r-3xl hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Subscribe</button>
             </div>
         </div>
 
@@ -34,8 +34,9 @@ function Home({
     // get current route
     return (
 
-        <div className={`py-16 lg:py-20 ${inter.className}  lg:px-28 flex flex-col items-center lg:items-stretch`}>
-            <div className='py-20 flex flex-col items-center lg:items-stretch'>
+        <div className={` ${inter.className}   flex flex-col items-center lg:items-stretch`}>
+            <div className='py-16 lg:py-28 lg:px-28  flex flex-col items-center bg-gray-50 lg:items-stretch'>
+                    <h2 className='text-purple-500 font-medium mb-6'>Blog</h2>
                 <div className="flex  flex-col space-y-5 lg:space-y-0 lg:flex-row items-center lg:items-start justify-between">
                     <h3 className={` text-5xl lg:text-6xl font-semibold`} >Untitled Blog</h3>
                     <p className='lg:w-2/5  mx-5 lg:mx-0 text-lg text-slate-700 font-medium'>
@@ -44,7 +45,7 @@ function Home({
                 </div>
                 <div>
                 </div>
-                <section className="bg-white lg:w-1/3 w-3/5 my-10 ">
+                <section className="lg:w-1/3 w-3/5 my-10 ">
                     <Subscribe></Subscribe>
                 </section>
             </div>
