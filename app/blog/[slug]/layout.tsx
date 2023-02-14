@@ -40,7 +40,7 @@ const blog: Blog = {
 
 
 function Chip() {
-  return (<div className='inline-flex  rounded-3xl items-center text-sm text-purple-700 bg-purple-50  px-2 py-1 space-x-4'>
+  return (<div className='inline-flex  rounded-3xl items-center text-sm text-purple-700 bg-purple-50  px-3 py-1 space-x-4'>
     <h3 className='px-2 py-1  rounded-3xl bg-white'>{blog.metaData.category}</h3>
     <p>{`${blog.metaData.timeTORead} min read`}</p>
   </div>);
@@ -50,12 +50,12 @@ function Chip() {
 function Layout() {
 
   return (
-    <div className={`${inter.className} py-16 mx-4`}>
+    <div className={`${inter.className} lg:py-24 py-16 mx-4 lg:mx-28`}>
       <Chip></Chip>
       <h1 className='text-4xl my-4 font-semibold'>
         {blog.title}
       </h1>
-      <h3 className='text-xl mb-16 text-gray-600'>
+      <h3 className='text-xl mb-16 lg:w-3/5 text-gray-600'>
         {blog.description}
       </h3>
       <img src={blog.image} alt='random' className='mb-8'></img>
@@ -64,7 +64,7 @@ function Layout() {
           <p className='font-semibold text-purple-600 text-lg'>Written by</p>
           <h5 className=' text-gray-900 mt-3 text-xl'>{blog.metaData.author}</h5>
         </div>
-        <div className=' mx-12' >
+        <div className='lg:ml-16 ml-12' >
           <p className='font-semibold text-purple-600 text-lg'>Published on</p>
           <h5 className=' text-gray-900 mt-3 text-xl'>{blog.metaData.postedDate}</h5>
         </div>
