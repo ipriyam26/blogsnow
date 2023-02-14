@@ -1,7 +1,7 @@
 import { inter } from '@/app/layout';
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
-
+import Image from 'next/image';
 type id = string;
 
 type metaData = {
@@ -88,7 +88,13 @@ function Layout() {
       <h3 className='text-xl mb-16 lg:w-3/5 text-gray-600'>
         {blog.description}
       </h3>
-      <img src={blog.image} alt='random' className='mb-8'></img>
+      <Image
+        src={blog.image}
+        alt='random'
+        width={500}
+        height={500}
+        className='mb-8'
+      ></Image>
       <div className='flex'>
         <div className='' >
           <p className='font-semibold text-purple-600 text-lg'>Written by</p>
@@ -100,8 +106,8 @@ function Layout() {
         </div>
       </div>
       <div className='mt-16 prose prose-p:text-lg flex flex-col'>
-    <ReactMarkdown>{blog.data}</ReactMarkdown>
-        </div>
+        <ReactMarkdown>{blog.data}</ReactMarkdown>
+      </div>
     </div>
   )
 }

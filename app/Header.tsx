@@ -1,9 +1,9 @@
 "use client"
-import { Fragment } from 'react'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Inter } from '@next/font/google'
 
+import { Disclosure, } from '@headlessui/react'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Inter } from '@next/font/google'
+import Image from 'next/image'
 const navigation = [
   { name: 'Home', href: '#', current: true },
   { name: 'Products', href: '#', current: false },
@@ -38,16 +38,14 @@ export default function Header() {
                 <div className="flex flex-shrink-0 items-center">
 
 
-                  <img
+                  <Image
                     className="block h-8 w-auto lg:hidden"
                     src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
                     alt="Your Company"
+                    width={100}
+                    height={100}
                   />
-                  <img
-                    className="hidden h-8 w-auto lg:block"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                    alt="Your Company"
-                  />
+                 
                 </div>
                 <h3 className={`font-medium ${inter.className} mx-8  text-gray-900 lg:block lg:pr-8  text-2xl `}>
                   Untitled UI
