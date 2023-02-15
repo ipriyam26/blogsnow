@@ -1,6 +1,7 @@
 import './globals.css'
 import { Inter } from '@next/font/google'
 import Header from './Header'
+import {Subscribe} from './Subscribe'
 
 
 export const inter = Inter({
@@ -28,7 +29,7 @@ export default function RootLayout({
           {children}
 
         </div>
-
+<Subscribe></Subscribe>
       </body>
 
     </html>

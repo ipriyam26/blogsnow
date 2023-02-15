@@ -3,6 +3,7 @@
 import React, { Children } from 'react'
 import { Inter } from '@next/font/google'
 import { Localnav } from './Localnav';
+import { EmailBox } from '../Subscribe';
 const inter = Inter({ subsets: ['latin'] })
 
 function Subscribe() {
@@ -35,19 +36,18 @@ function Home({
     return (
 
         <div className={` ${inter.className}   flex flex-col items-center lg:items-stretch`}>
-            <div className='py-16 lg:py-20 lg:px-28  w-screen flex flex-col items-center bg-gray-50 lg:items-stretch'>
+            <div className='py-16 lg:py-20 lg:px-28  px-4 w-screen flex flex-col items-start bg-gray-50 lg:items-stretch'>
                     <h2 className='text-purple-500 font-medium mb-6'>Blog</h2>
-                <div className="flex  flex-col space-y-5 lg:space-y-0 lg:flex-row items-center lg:items-start justify-between">
+                <div className="flex  flex-col space-y-5 lg:space-y-0 lg:flex-row lg:items-start justify-between">
                     <h3 className={` text-5xl lg:text-6xl font-semibold`} >Untitled Blog</h3>
-                    <p className='lg:w-2/5  mx-5 lg:mx-0 text-lg text-gray-600 font-normal'>
+                    <p className='lg:w-2/5   lg:mx-0 text-lg text-gray-600 font-normal'>
                         New product features, updates, and the latest tech news, delivered.
                     </p>
                 </div>
                 <div>
                 </div>
-                <section className="lg:w-1/3 w-3/5 my-10 ">
-                    <Subscribe></Subscribe>
-                    <p className=' text-xs text-gray-600'>We care about your data in our <u>privacy policy</u>.</p>
+                <section className="">
+                 <EmailBox textbg={true}></EmailBox> 
                 </section>
             </div>
 <div className='px-2 sm:px-6 lg:px-8'>
