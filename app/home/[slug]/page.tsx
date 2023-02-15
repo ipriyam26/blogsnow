@@ -49,7 +49,7 @@ function Page({
 }) {
   console.log(params.slug);
   return (
-    <div className={` ${inter.className} my-10 grid grid-cols-1 auto-rows-min lg:grid-cols-2 gap-4`} style={{ gap: '0' }}>
+    <div className={` ${inter.className} my-10 grid grid-cols-1 auto-rows-min lg:grid-cols-2 gap-4`} style={{ gap: '1' }}>
       {
         articles.map((article, index) => (
 
