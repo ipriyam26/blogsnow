@@ -18,7 +18,7 @@ interface Article {
     title: string;
     description: string;
     author: string;
-    category: string;
+    category: Category;
     enabled: boolean;
     createdAt: string;
     updatedAt: string;
@@ -94,9 +94,29 @@ interface Article {
     };
   };
 }
+interface Category {
+  data: {
+    id: number;
+    attributes: {
+      slug: string;
+      title: string;
+      createdAt: string;
+      updatedAt: string;
+      publishedAt: string;
+    };
+  }
 
+}
 interface Response {
   data: Article[] | [];
+  // meta:{
+  //   pagination:{
+  //     page:number;
+  //     pageSize:number;
+  //     pageCount:number;
+  //     total:number;
+  //   }
+  // }
 }
 
 
@@ -121,7 +141,6 @@ interface Response {
 // let articles: Article[] = [];
 async function fetchBlogs(slug: string) {
   // try {
-  console.log('fetching');
   let url = '';
 
   if (slug == 'all') {
@@ -134,12 +153,10 @@ async function fetchBlogs(slug: string) {
     url = `http://127.0.0.1:1337/api/blogs?filters[category][slug][$eq]=${slug}&populate=*`;
   }
 
-  console.log(url);
   var response = await fetch(url,
     // caches={''}
   );
 
-  console.log(response.status);
 
   const blogs: Response = await response.json();
 
@@ -155,64 +172,67 @@ async function Page({
 }: {
   params: { slug: string };
 }) {
-  console.log(params.slug);
   let blogs = await fetchBlogs(params.slug);
-  console.log(blogs[0].attributes.title);
   return (
 
-    // <div className={` ${inter.className} my-10 grid grid-cols-1 auto-rows-min lg:grid-cols-2 gap-4`} style={{ gap: '1' }}>
-    //   {
-    //     blogs.map((article, index) => (
+    <div className={` ${inter.className} my-10 grid grid-cols-1 auto-rows-min lg:grid-cols-2 gap-4`} style={{ gap: '1' }}>
+      {
 
-    //       <div className=" max-w-sm sm:max-w-lg md:max-w-xl xl:max-w-2xl 2xl:max-w-3xl p-0 mt-0 mx-5 aspect-auto " key={index}>
-    //         <a href="#" className='relative'>
-    //           <img
-    //             width={700}
-    //             height={700}
+        blogs.map((blog, index) => (
 
-    //             className=" rounded-t-lg h-3/5 object-cover  " src={`http://localhost:1337${article.attributes.image.data.attributes.formats.large.url}`} alt="" />
-    //           <div className="absolute bottom-0 w-full py-6 backdrop-filter backdrop-blur-xl  border-white border-t">
-    //             <div className="text-white text-sm px-4 flex justify-between py-2  rounded-t-lg">
-    //               <div>
+          <div className=" max-w-sm sm:max-w-lg md:max-w-xl xl:max-w-2xl 2xl:max-w-3xl p-0 mt-0 mx-5 aspect-auto " key={index}>
+            <a href="#" className='relative'>
 
-    //                 <p className="font-semibold">{article.attributes.author}</p>
-    //                 <p className="opacity-80">{article.attributes.createdAt}</p>
-    //               </div>
-    //               <p className="opacity-80 font-semibold">{article.attributes.category}</p>
-    //             </div>
-    //           </div>
+              <img
+                width={700}
+                height={700}
+                className='rounded-t-lg h-3/5 object-cover  ' src={`http://127.0.0.1:1337${blog.attributes.image.data.attributes.formats.large.url}`
+                }>
+              </img>
+              <div className="absolute bottom-0 w-full py-6 backdrop-filter backdrop-blur-xl  border-white border-t">
+                <div className="text-white text-sm px-4 flex justify-between py-2  rounded-t-lg">
+                  <div>
+                    <p className="font-semibold">{blog.attributes.author}</p>
+                    <p className="opacity-80">{blog.attributes.createdAt}</p>
+                  </div>
+                  <p className="opacity-80 font-semibold">
+                    {blog.attributes.category.data.attributes.title}
+                  </p>
+                </div>
+              </div>
 
+            </a>
 
-    //         </a>
-    //         <div className="py-5 ">
-    //           <a href="#">
-    //             <h5 className="mb-2 text-2xl font-medium tracking-tight text-gray-900 ">{article.attributes.title}</h5>
-    //           </a>
-    //           <p className="mb-3 text-sm font-light text-gray-900">{article.attributes.description}</p>
-    //           <a href={`http://localhost:1337/${article.id}`}
-    //             style={{ color: '#6941C6' }}
-    //             className="inline-flex items-center  py-2 text-sm font-medium ">
-    //             Read post
-
-
-    //             <svg xmlns="http://www.w3.org/2000/svg" className='w-4 h-4 ml-2 -mr-1 hover:mr-0' viewBox="0 0 20 20"><g id="Layer_2" data-name="Layer 2"><g id="diagonal-arrow-right-up"><g id="diagonal-arrow-right-up-2" data-name="diagonal-arrow-right-up"><rect style={{ fill: '#fff', opacity: 0 }}
-
-    //               width="24" height="24" transform="translate(24 24) rotate(180)" /><path style={{ fill: '#6941C6' }} d="M18,7.05a1,1,0,0,0-1-1L9,6H9A1,1,0,0,0,9,8l5.56,0L6.29,16.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L16,9.42V15a1,1,0,0,0,1,1h0a1,1,0,0,0,1-1Z" /></g></g></g></svg>
-
-    //           </a>
-
-    //         </div>
-    //       </div>
-    //     ))
-    //   }
+            <div className="py-5 ">
+              <a href="#">
+                <h5 className="mb-2 text-2xl font-medium tracking-tight text-gray-900 ">{blog.attributes.title}</h5>
+              </a>
+              <p className="mb-3 text-sm font-light text-gray-900">{blog.attributes.description}</p>
+              <a href={`http://localhost:3000/blog/${blog.id}`}
+                style={{ color: '#6941C6' }}
+                className="inline-flex items-center  py-2 text-sm font-medium ">
+                Read post
 
 
-    // </div>
-    <>
-      <div>
-        {blogs.map((article, index) => (article.attributes.title))}
-      </div>
-    </>
+                <svg xmlns="http://www.w3.org/2000/svg" className='w-4 h-4 ml-2 -mr-1 hover:mr-0' viewBox="0 0 20 20"><g id="Layer_2" data-name="Layer 2"><g id="diagonal-arrow-right-up"><g id="diagonal-arrow-right-up-2" data-name="diagonal-arrow-right-up"><rect style={{ fill: '#fff', opacity: 0 }}
+
+                  width="24" height="24" transform="translate(24 24) rotate(180)" /><path style={{ fill: '#6941C6' }} d="M18,7.05a1,1,0,0,0-1-1L9,6H9A1,1,0,0,0,9,8l5.56,0L6.29,16.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L16,9.42V15a1,1,0,0,0,1,1h0a1,1,0,0,0,1-1Z" /></g></g></g></svg>
+
+              </a>
+
+            </div>
+          </div>
+        )
+        )
+      }
+
+
+    </div>
+    // <>
+    //   <div>
+    //     {blogs.map((article, index) => (blog.attributes.title))}
+    //   </div>
+    // </>
   );
 }
 
