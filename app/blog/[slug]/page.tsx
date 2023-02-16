@@ -232,6 +232,9 @@ async function Layout(
           <h5 className=' text-gray-900 mt-3 text-xl'>{posted}</h5>
         </div>
       </div>
+
+
+
       <div className="lg:grid lg:grid-cols-5 gap-14 ">
         <div className='flex lg:col-span-3'>
           <div className='mt-16 prose prose-p:text-lg min-w-full flex flex-col'>
@@ -242,7 +245,7 @@ async function Layout(
             </ReactMarkdown>
           </div>
         </div>
-        <div className='lg:col-span-1  w-96 mt-12 p-6 mx-auto h-min bg-gray-50 border-t-4 border border-purple-600 '>
+        <div className='lg:col-span-1  w-96 mt-12 p-6 mx-auto h-min bg-gray-50 border-t-4 rounded-xl rounded-t-none border-purple-600 '>
           <div className='  rounded-full p-4 bg-purple-100 inline-flex mb-6'>
             <SlPaperPlane
               className='w-5 h-5'
@@ -254,7 +257,7 @@ async function Layout(
           <p className='text-gray-400 font-normal  '>
             No spam. Just the latest releases and tips, interesting articles, and exclusive interviews in your inbox every week.
           </p>
-          <EmailBox textbg={true}></EmailBox>
+          <EmailBox disableResponsive={true} textbg={true}></EmailBox>
         </div>
       </div>
     </div>
