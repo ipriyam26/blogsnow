@@ -9,29 +9,33 @@ import { redirect, usePathname } from 'next/navigation';
 import { Inter } from '@next/font/google';
 import { useState } from 'react'
 
-const menus = [
-    {
-        name: 'View all',
-        link: '/home/all'
-    }, {
-        name: 'Design',
-        link: '/home/design'
-    },
-    {
-        name: 'Product',
-        link: '/home/product'
-    },
-    {
-        name: 'Software Development',
-        link: '/home/development'
-    },
-
-
-    {
-        name: 'Customer Success',
-        link: '/home/support'
+interface Category {
+    id: number;
+    attributes: {
+        slug: string;
+        title: string;
+        createdAt: string;
+        updatedAt: string;
+        publishedAt: string;
     }
-]
+}
+
+interface Pagination {
+    page: number;
+    pageSize: number;
+    pageCount: number;
+    total: number;
+}
+
+interface CategoryResponse {
+    data: Category[];
+    meta: {
+        pagination: Pagination;
+    }
+}
+
+
+
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
@@ -39,11 +43,21 @@ function classNames(...classes: string[]) {
 
 const inter = Inter({ subsets: ['latin'] })
 
-export function Localnav() {
-    const pathname = usePathname();
+function Localnav(
+    params: {
+        menus: Category[];
+    }
+) {
+    const { menus } = params;
+    let pathname = usePathname();
     console.log(pathname);
+    pathname = pathname!.replace('/', '');
+    // let menus = await getCategories();
     // selected person is the one which has its name in the pathname
-    const selectedPerson = menus.find((person) => person.link === pathname)
+    let selectedPerson = menus.find((category) => category.attributes.slug === pathname)
+    if (selectedPerson == null) {
+        selectedPerson = menus[0];
+    }
     return (
 
         <div className='pt-16 pb-8'>
@@ -55,17 +69,17 @@ export function Localnav() {
 
                         <div className={` ${inter.className}  hidden  sm:block`}>
                             <div className="flex space-x-4">
-                                {menus.map((item) => (
+                                {menus.map((category) => (
                                     <a
-                                        key={item.name}
-                                        href={item.link}
+                                        key={category.attributes.title}
+                                        href={`http://localhost:3000/${category.attributes.slug}`}
                                         className={classNames(
-                                            item.link === pathname ? 'bg-gray-100 ' : ' text-gray-500 hover:bg-gray-700 hover:text-white',
+                                            category.attributes.slug === pathname ? 'bg-gray-100 ' : ' text-gray-500 hover:bg-gray-700 hover:text-white',
                                             'px-3 py-2 rounded-md text-md font-medium'
                                         )}
-                                        aria-current={item.link === pathname ? 'page' : undefined}
+                                        aria-current={category.attributes.slug === pathname ? 'page' : undefined}
                                     >
-                                        {item.name}
+                                        {category.attributes.title}
                                     </a>
                                 ))}
                             </div>
@@ -78,32 +92,32 @@ export function Localnav() {
 
                 <Listbox
 
-                    value={selectedPerson?.name}
+                    value={selectedPerson?.attributes.title}
                     onChange={
                         (value) => {
                             // redirect to the link of the selected person
-                            const newSelectedPerson = menus.find((person) => person.name === value)
-                            redirect(newSelectedPerson!.link);
+                            const newSelectedPerson = menus.find((person) => person.attributes.title === value)
+                            redirect(newSelectedPerson!.attributes.slug);
                         }
 
                     }
                 >
                     <Listbox.Button className={`p-2.5`}>
-                        {selectedPerson!.name}
+                        {selectedPerson!.attributes.title}
 
                     </Listbox.Button>
                     <Listbox.Options>
                         {
                             // map over menu but only render the ones which are not selected
-                            menus.filter((person) => person.name !== selectedPerson?.name).map(
+                            menus.filter((person) => person.attributes.title !== selectedPerson?.attributes.title).map(
                                 (person) => (
 
                                     <Listbox.Option
                                         className={` p-2.5  border-gray-300 `}
-                                        key={person.name}
+                                        key={person.attributes.title}
                                         value={person}
                                     >
-                                        {person.name}
+                                        {person.attributes.title}
                                     </Listbox.Option>
                                 )
                             )
@@ -119,3 +133,4 @@ export function Localnav() {
 
 
 
+export default Localnav;

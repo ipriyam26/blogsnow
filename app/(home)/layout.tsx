@@ -2,9 +2,49 @@
 
 import React, { Children } from 'react'
 import { Inter } from '@next/font/google'
-import { Localnav } from './Localnav';
+import Localnav from './Localnav';
 import { EmailBox } from '../Subscribe';
 const inter = Inter({ subsets: ['latin'] })
+
+
+
+
+
+interface Category {
+    id: number;
+    attributes: {
+        slug: string;
+        title: string;
+        createdAt: string;
+        updatedAt: string;
+        publishedAt: string;
+    }
+}
+
+interface Pagination {
+    page: number;
+    pageSize: number;
+    pageCount: number;
+    total: number;
+}
+
+interface CategoryResponse {
+    data: Category[];
+    meta: {
+        pagination: Pagination;
+    }
+}
+
+
+
+// get all categories from CMS
+async function getCategories() {
+    let response = await fetch('http://127.0.0.1:1337/api/categories');
+    let categories: CategoryResponse = await response.json();
+    return categories.data;
+
+}
+
 
 function Subscribe() {
     return (<form action="#">
@@ -26,18 +66,22 @@ function Subscribe() {
 
 
 
-function Home({
+async function Home({
     children,
 }: {
     children: React.ReactNode
 }) {
     // const router = ();
     // get current route
+    let menu = await getCategories();
+    // console.log(menu[0]);
+
     return (
+
 
         <div className={` ${inter.className}   flex flex-col items-center lg:items-stretch`}>
             <div className='py-16 lg:py-20 lg:px-28  px-4 w-screen flex flex-col items-start bg-gray-50 lg:items-stretch'>
-                    <h2 className='text-purple-500 font-medium mb-6'>Blog</h2>
+                <h2 className='text-purple-500 font-medium mb-6'>Blog</h2>
                 <div className="flex  flex-col space-y-5 lg:space-y-0 lg:flex-row lg:items-start justify-between">
                     <h3 className={` text-5xl lg:text-6xl font-semibold`} >Untitled Blog</h3>
                     <p className='lg:w-2/5   lg:mx-0 text-lg text-gray-600 font-normal'>
@@ -47,13 +91,13 @@ function Home({
                 <div>
                 </div>
                 <section className="">
-                 <EmailBox textbg={true}></EmailBox> 
+                    <EmailBox textbg={true}></EmailBox>
                 </section>
             </div>
-<div className='px-2 sm:px-6 lg:px-8'>
-            <Localnav></Localnav>
-            {children}
-</div>
+            <div className='px-2 sm:px-6 lg:px-8'>
+                <Localnav menus={menu}></Localnav>
+                {children}
+            </div>
         </div>
 
     )

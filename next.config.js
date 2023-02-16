@@ -1,10 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  settings: {
+    cors: {
+      enabled: true,
+      // headers: '*', 
+      origin: ["http://localhost", 'https://foo.example'],
+    },
+  },
   experimental: {
     appDir: true,
   },
-  images:{
-    domains: ['media.npr.org','loremflickr.com','images.unsplash.com','tailwindui.com'],
+  images: {
+    domains: ['media.npr.org', 'loremflickr.com', 'images.unsplash.com', 'tailwindui.com',"localhost"],
   }
 }
 
