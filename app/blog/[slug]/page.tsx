@@ -1,4 +1,4 @@
-import { inter } from '@/app/layout';
+import { Inter } from '@next/font/google';
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import Image from 'next/image';
@@ -136,7 +136,7 @@ async function fetchBlog(id: string) {
 }
 
 
-
+const inter = Inter({ subsets: ['latin'] })
 
 function Chip(
   params: {
@@ -222,19 +222,22 @@ async function Layout(
               </ReactMarkdown>
             </div>
           </div>
-          {newLetterBox()}
+          {/* <div> */}
+
+            <div className='col-span-2'>
+              <p className='text-2xl font-semibold '>Popular Posts</p>
+              {
+                recommendedPosts.map((newPost, index) => {
+                  return recommendedPost(newPost, newPost.id.toString());
+                })
+              }
+            {/* </div> */}
+          </div>
         </div>
       </div>
       <hr className='bg-black text-black md:mx-28' />
       <div className='mx-4 md:grid md:grid-cols-3 md:mx-28'>
-        {FeaturedPostData}
-        <div className='md:flex col-span-2'>
-          {
-            recommendedPosts.map((newPost, index) => {
-              return recommendedPost(newPost, newPost.id.toString());
-            })
-          }
-        </div>
+
         <div className="my-10 rounded-md block md:hidden sm:flex-shrink-0">
           <button type="submit" className="flex  items-center justify-center rounded-md border border-transparent bg-purple-600 px-5 py-3 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
             View all posts

@@ -1,13 +1,8 @@
 import './globals.css'
 import { Inter } from '@next/font/google'
 import Header from './Header'
-import { Subscribe } from './Subscribe'
 
 
-export const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-})
 
 export default function RootLayout({
   children,
