@@ -38,18 +38,16 @@ export default function Header() {
                 <div className="flex flex-shrink-0 items-center">
 
 
-                  <Image
-                    className="block h-8 w-auto lg:hidden"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                    alt="Your Company"
-                    width={100}
-                    height={100}
-                  />
-                 
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" className="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                  </svg>
                 </div>
-                <h3 className={`font-medium ${inter.className} mx-8  text-gray-900 lg:block lg:pr-8  text-2xl `}>
-                  Untitled UI
-                </h3>
+                <a href="\all">
+                  <h3 className={`font-medium ${inter.className} mx-8  text-gray-900 lg:block lg:pr-8  text-2xl `}>
+                    Untitled UI
+                  </h3>
+                </a>
+
                 <div className="hidden sm:ml-6 sm:block">
                   <div className={`flex space-x-6 ${inter.className}`}>
 
