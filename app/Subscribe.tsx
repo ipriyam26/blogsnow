@@ -14,7 +14,7 @@ require('@tailwindcss/forms'),
 }
 ```
 */
-
+"use client"
 import { Inter } from "@next/font/google"
 
 const inter = Inter({ subsets: ['latin'] })
@@ -32,11 +32,13 @@ function EmailBox(
     return (
         <form className={`my-5 sm:${disableResponsive ? 'flex-none' : 'flex'}  `} onSubmit={
             (e) => {
+                console.log('submit')
                 e.preventDefault()
                 const formData = new FormData(e.currentTarget);
                 const email = formData.get('email') as string;
+                console.log(email)
                 // make a post request to your strapi backend
-                fetch('https://strapi-backend-url.com/subscribe', {
+                fetch('http://127.0.0.1:1337/api/subscribers', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
