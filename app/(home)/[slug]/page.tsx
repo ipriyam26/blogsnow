@@ -1,12 +1,10 @@
 import React from 'react'
-import Image from 'next/image'
 import { Inter } from '@next/font/google';
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
 })
 
-import axios from 'axios';
 
 interface Author {
   data: {
@@ -117,36 +115,9 @@ interface Category {
 }
 interface Response {
   data: Article[] | [];
-  // meta:{
-  //   pagination:{
-  //     page:number;
-  //     pageSize:number;
-  //     pageCount:number;
-  //     total:number;
-  //   }
-  // }
+
 }
 
-
-
-
-
-// type Blog = {
-//   title: string;
-//   description: string;
-
-//   image: string;
-//   data: string;
-//   postedDate: string;
-//   category: string;
-//   author: string;
-//   timeTORead: number;
-//   url: string;
-//   id: string;
-// }
-
-
-// let articles: Article[] = [];
 async function fetchBlogs(slug: string) {
   // try {
   let url = '';
@@ -197,17 +168,17 @@ async function Page({
           const day = match![3];
           const posted = `${day} ${month}`; 
 return(
-          <div className="  p-0 mt-0 mx-7 aspect-auto " key={index}>
+          <div className="  p-0  mx-7 my-8  aspect-auto " key={blog.id}>
             <a href="#" className='relative'>
 
               <img
                 width={600}
                 height={300}
-                className='rounded-t-lg  object-cover  ' src={`http://127.0.0.1:1337${blog.attributes.image.data.attributes.formats.large.url}`
+                className=' h-60 md:h-72' src={`http://127.0.0.1:1337${blog.attributes.image.data.attributes.formats.large.url}`
                 }>
               </img>
-              <div className="absolute bottom-0 w-full md:py-6  py-2 backdrop-filter backdrop-blur-xl  border-white border-t">
-                <div className="text-white text-sm px-4 flex justify-between py-2  rounded-t-lg">
+              <div className="absolute bottom-0 w-full md:py-6  py-4 backdrop-filter backdrop-blur-xl  border-white border-t">
+                <div className="text-white text-sm px-4 flex justify-between   rounded-t-lg">
                   <div>
                     <p className="font-semibold">{blog.attributes.author.data.attributes.Name}</p>
                     <p className="opacity-80">{posted}</p>
@@ -220,14 +191,14 @@ return(
 
             </a>
 
-            <div className="md:py-2 py-8">
+            <div className="mt-6 md:mt-8">
               <a href="#">
                 <h5 className="mb-2 text-2xl font-medium tracking-tight text-gray-900 ">{blog.attributes.title}</h5>
               </a>
               <p className="mb-3 text-sm font-light text-gray-900">{blog.attributes.description}</p>
               <a href={`http://localhost:3000/blog/${blog.id}`}
                 style={{ color: '#6941C6' }}
-                className="inline-flex items-center  py-2 text-sm font-medium ">
+                className="inline-flex items-center  pt-2 text-sm font-medium ">
                 Read post
 
 
