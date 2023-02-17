@@ -10,13 +10,22 @@ import { SlPaperPlane } from 'react-icons/sl'
 import { EmailBox } from '@/app/Subscribe';
 
 
+interface Author {
+  data: {
+    id: number;
+    attributes: {
+      Name: string;
+      slug: string;
+    }
+  }
+}
 interface Article {
   id: number;
   attributes: {
     data: string;
     title: string;
     description: string;
-    author: string;
+    author: Author;
     category: Category;
     enabled: boolean;
     createdAt: string;
@@ -157,21 +166,10 @@ async function fetchBlog(id: string) {
   console.log(url);
 
   var response = await fetch(url,
-    // caches={''}
   );
 
 
   let blog: Response = await response.json();
-
-  // console.log(blog.data);
-  //   try{
-
-  //     console.log(blog.data?.attributes);
-  //   }
-  //   catch(e){
-  // // log in red color that error
-  //     console.error(e);
-  //   }
   return blog.data[0];
 
 }
@@ -240,7 +238,7 @@ async function Layout(
         <div className='flex'>
           <div className='' >
             <p className='font-semibold text-purple-600 text-sm'>Written by</p>
-            <h5 className=' text-gray-900 mt-3 text-xl'>{blog!.attributes.author}</h5>
+            <h5 className=' text-gray-900 mt-3 text-xl'>{blog!.attributes.author.data.attributes.Name}</h5>
           </div>
           <div className='lg:ml-16 ml-6 md:ml-10' >
             <p className='font-semibold text-purple-600 text-sm'>Published on</p>
@@ -308,17 +306,17 @@ async function Layout(
             </p>
             <div className=''>
 
-              <h5 className=' text-gray-900 mt-3 text-sm font-semibold'>{blog!.attributes.author}</h5>
+              <h5 className=' text-gray-900 mt-3 text-sm font-semibold'>{blog!.attributes.author.data.attributes.Name}</h5>
               <h5 className=' text-gray-600 text-sm font-normal'>{posted}</h5>
             </div>
 
           </div>
         </div>
         <div className="my-10 rounded-md block md:hidden sm:flex-shrink-0">
-            <button type="submit" className="flex  items-center justify-center rounded-md border border-transparent bg-purple-600 px-5 py-3 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
-              View all posts
-            </button>
-          </div>
+          <button type="submit" className="flex  items-center justify-center rounded-md border border-transparent bg-purple-600 px-5 py-3 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
+            View all posts
+          </button>
+        </div>
       </div>
 
       <footer className="text-gray-600 py-10 bg-gray-800 body-font md:px-20 lg:px-28">

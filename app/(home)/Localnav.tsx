@@ -60,7 +60,7 @@ function Localnav(
     }
     return (
 
-        <div className='pt-16 pb-8'>
+        <div className='pt-16 px-4 pb-8'>
             <div className="mx-auto max-w-7xl ">
                 <div className="relative flex h-16 items-center justify-between">
                     <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -88,7 +88,7 @@ function Localnav(
 
                 </div>
             </div>
-            <div className='border rounded border-gray-300 sm:hidden'>
+            <div className='border rounded  border-gray-300 sm:hidden'>
 
                 <Listbox
 

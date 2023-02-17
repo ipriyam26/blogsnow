@@ -8,7 +8,15 @@ const inter = Inter({
 
 import axios from 'axios';
 
-
+interface Author {
+  data: {
+    id: number;
+    attributes: {
+      Name: string;
+      slug: string;
+    }
+  }
+}
 
 
 interface Article {
@@ -17,7 +25,7 @@ interface Article {
     data: string;
     title: string;
     description: string;
-    author: string;
+    author: Author;
     category: Category;
     enabled: boolean;
     createdAt: string;
@@ -148,8 +156,7 @@ async function fetchBlogs(slug: string) {
     url = 'http://127.0.0.1:1337/api/blogs?populate=*';
   }
   else {
-    // localhost:1337/api/blogs?filters[category][slug]=development&populate=*
-    // if its not all use slug to get the category
+
     url = `http://127.0.0.1:1337/api/blogs?filters[category][slug][$eq]=${slug}&populate=*`;
   }
 
@@ -173,27 +180,37 @@ async function Page({
   params: { slug: string };
 }) {
   let blogs = await fetchBlogs(params.slug);
+
+  
   return (
 
-    <div className={` ${inter.className} my-10 grid grid-cols-1 auto-rows-min lg:grid-cols-2 gap-4`} style={{ gap: '1' }}>
+    <div className={` ${inter.className} md:mx-8 md:grid md:grid-cols-2 md:justify-start  `} >
       {
 
-        blogs.map((blog, index) => (
-
-          <div className=" max-w-sm sm:max-w-lg md:max-w-xl xl:max-w-2xl 2xl:max-w-3xl p-0 mt-0 mx-5 aspect-auto " key={index}>
+        blogs.map((blog, index) => {
+          const dateRegex = /^(\d{4})-(\d{2})-(\d{2})T/;
+          const match = dateRegex.exec(blog.attributes.publishedAt);
+        
+        
+          const year = match![1];
+          const month = new Date(Number(year), Number(match![2]) - 1, Number(match![3])).toLocaleString('default', { month: 'short' });
+          const day = match![3];
+          const posted = `${day} ${month}`; 
+return(
+          <div className="  p-0 mt-0 mx-7 aspect-auto " key={index}>
             <a href="#" className='relative'>
 
               <img
-                width={700}
-                height={700}
-                className='rounded-t-lg h-3/5 object-cover  ' src={`http://127.0.0.1:1337${blog.attributes.image.data.attributes.formats.large.url}`
+                width={600}
+                height={300}
+                className='rounded-t-lg  object-cover  ' src={`http://127.0.0.1:1337${blog.attributes.image.data.attributes.formats.large.url}`
                 }>
               </img>
-              <div className="absolute bottom-0 w-full py-6 backdrop-filter backdrop-blur-xl  border-white border-t">
+              <div className="absolute bottom-0 w-full md:py-6  py-2 backdrop-filter backdrop-blur-xl  border-white border-t">
                 <div className="text-white text-sm px-4 flex justify-between py-2  rounded-t-lg">
                   <div>
-                    <p className="font-semibold">{blog.attributes.author}</p>
-                    <p className="opacity-80">{blog.attributes.createdAt}</p>
+                    <p className="font-semibold">{blog.attributes.author.data.attributes.Name}</p>
+                    <p className="opacity-80">{posted}</p>
                   </div>
                   <p className="opacity-80 font-semibold">
                     {blog.attributes.category.data.attributes.title}
@@ -203,7 +220,7 @@ async function Page({
 
             </a>
 
-            <div className="py-5 ">
+            <div className="md:py-2 py-8">
               <a href="#">
                 <h5 className="mb-2 text-2xl font-medium tracking-tight text-gray-900 ">{blog.attributes.title}</h5>
               </a>
@@ -221,8 +238,8 @@ async function Page({
               </a>
 
             </div>
-          </div>
-        )
+          </div>);
+}
         )
       }
 
