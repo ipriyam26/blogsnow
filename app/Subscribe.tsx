@@ -30,13 +30,35 @@ function EmailBox(
 ) {
     const { textbg, disableResponsive } = props
     return (
-        <form className={`my-5 sm:${disableResponsive ? 'flex-none' : 'flex'}  `}>
+        <form className={`my-5 sm:${disableResponsive ? 'flex-none' : 'flex'}  `} onSubmit={
+            (e) => {
+                e.preventDefault()
+                const formData = new FormData(e.currentTarget);
+                const email = formData.get('email') as string;
+                // make a post request to your strapi backend
+                fetch('https://strapi-backend-url.com/subscribe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        "data": {
+                            "email": email
+                        }
+                    }),
+                }).then((res) => {
+                    console.log(res)
+                })
+            }
+        }>
             <label htmlFor="email-address" className="sr-only">
                 Email address
             </label>
             <div>
 
-                <input id="email-address" name="email" type="email" autoComplete="email" required className="w-full rounded-md border-gray-300 px-5 py-3 max-w-sm placeholder-gray-500 focus:border-purple-500 focus:ring-purple-500" placeholder="Enter your email" />
+                <input
+
+                    id="email-address" name="email" type="email" autoComplete="email" required className="w-full rounded-md border-gray-300 px-5 py-3 max-w-sm placeholder-gray-500 focus:border-purple-500 focus:ring-purple-500" placeholder="Enter your email" />
                 <p className={` text-sm mt-1.5 mb-4 ${textbg ? 'text-gray-800' : 'text-gray-200'} font-light`}>We care about your data in our <u>
                     privacy policy.
                 </u>
@@ -48,7 +70,7 @@ function EmailBox(
                 </button>
             </div>
         </form>
-        );
+    );
 }
 
 
