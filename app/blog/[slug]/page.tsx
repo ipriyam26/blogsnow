@@ -371,15 +371,23 @@ function recommendedPost(blog: Article) {
   </div >;
 }
 async function fetchRecommendations(data: Article[]) {
-  var article_list: Article[] = []
-  for (const article in data) {
-    if (Object.prototype.hasOwnProperty.call(data, article)) {
-      const element = data[article];
-      const newBlog = await fetchBlog(element.attributes.slug);
-      article_list.push(newBlog)
+  var article_list =  data.map((article) => {
+return fetchBlog(article.attributes.slug)
+  });
 
-    }
-  }
-  return article_list
+
+  // for (const article in data) {
+  //   if (Object.prototype.hasOwnProperty.call(data, article)) {
+  //     const element = data[article];
+  //     const newBlog = await fetchBlog(element.attributes.slug);
+  //     article_list.push(newBlog)
+
+  //   }
+  // }
+  
+
+
+
+  return await Promise.all(article_list);
 }
 

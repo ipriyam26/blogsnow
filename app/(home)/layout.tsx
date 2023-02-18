@@ -116,8 +116,7 @@ async function Home({
                         New product features, updates, and the latest tech news, delivered.
                     </p>
                 </div>
-                <div>
-                </div>
+              
                 <section className="">
                     <EmailBox disableResponsive={false} textbg={true}></EmailBox>
                 </section>

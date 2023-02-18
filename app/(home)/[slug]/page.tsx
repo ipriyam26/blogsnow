@@ -168,15 +168,17 @@ async function Page({
           const day = match![3];
           const posted = `${day} ${month}`;
           return (
-            <a href={`http://localhost:3000/blog/${blog.attributes.slug}`} className="  p-0  mx-7 my-8  aspect-auto " key={blog.id}>
-              <div className='relative'>
+            <div className="  p-0  mx-7 my-8  aspect-auto " key={blog.id}>
 
-                <img
-                  width={600}
-                  height={300}
-                  className=' h-60 md:h-72' src={`http://127.0.0.1:1337${blog.attributes.image.data.attributes.formats.large.url}`
-                  }>
-                </img>
+              <div className='relative'>
+                <a href={`http://localhost:3000/blog/${blog.attributes.slug}`}>
+                  <img
+                    width={600}
+                    height={300}
+                    className=' h-60 md:h-72' src={`http://127.0.0.1:1337${blog.attributes.image.data.attributes.formats.large.url}`
+                    }>
+                  </img>
+                </a>
                 <div className="absolute bottom-0 w-full md:py-6  py-4 backdrop-filter backdrop-blur-xl  border-white border-t">
                   <div className="text-white text-sm px-4 flex justify-between   rounded-t-lg">
                     <div>
@@ -192,11 +194,11 @@ async function Page({
               </div>
 
               <div className="mt-6 md:mt-8">
-                <a href="#">
-                  <h5 className="mb-2 text-2xl font-medium tracking-tight text-gray-900 ">{blog.attributes.title}</h5>
+                <a href={`http://localhost:3000/blog/${blog.attributes.slug}`} className="mb-2 text-2xl font-medium tracking-tight text-gray-900 ">
+                  {blog.attributes.title}
                 </a>
                 <p className="mb-3 text-sm font-light text-gray-900">{blog.attributes.description}</p>
-                <a href={`http://localhost:3000/blog/${blog.id}`}
+                <a href={`http://localhost:3000/blog/${blog.attributes.slug}`}
                   style={{ color: '#6941C6' }}
                   className="inline-flex items-center  pt-2 text-sm font-medium ">
                   Read post
@@ -208,19 +210,18 @@ async function Page({
 
                 </a>
 
+
               </div>
-            </a>);
+
+
+            </div>);
         }
         )
       }
 
 
     </div>
-    // <>
-    //   <div>
-    //     {blogs.map((article, index) => (blog.attributes.title))}
-    //   </div>
-    // </>
+
   );
 }
 
