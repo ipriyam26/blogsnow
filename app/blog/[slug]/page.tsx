@@ -90,7 +90,7 @@ interface Category {
 
 }
 interface Response {
-  data: Article;
+  data: Article[];
 
 }
 
@@ -124,14 +124,15 @@ const footerData = [
 ]
 
 
-async function fetchBlog(id: string) {
-  let url = `http://127.0.0.1:1337/api/blogs/${id}?populate=*`;
-  console.log(url);
+async function fetchBlog(slug: string) {
+  let url = `http://127.0.0.1:1337/api/blogs?filters[slug][$eq]=${slug}&populate=*`;
+
+
   var response = await fetch(url,
   );
   let blog: Response = await response.json();
   // console.log(blog.data[0].attributes.title);
-  return blog.data;
+  return blog.data[0];
 
 }
 
@@ -163,8 +164,9 @@ async function Layout(
   }
 ) {
   let { slug } = params;
+  console.log(slug);
   let blog = await fetchBlog(slug);
-
+  console.log(blog.attributes.title);
   const posted = findDate(blog); // Output: "15 Feb"
 
   const FeaturedPostData = <div className='md:col-span-1'>
@@ -224,13 +226,14 @@ async function Layout(
           </div>
           {/* <div> */}
 
-            <div className='col-span-2'>
-              <p className='text-2xl font-semibold '>Popular Posts</p>
-              {
-                recommendedPosts.map((newPost, index) => {
-                  return recommendedPost(newPost, newPost.id.toString());
-                })
-              }
+          <div className='col-span-2'>
+            <hr className='my-4'></hr>
+            <p className='text-2xl font-semibold '>Popular Posts</p>
+            {
+              recommendedPosts.map((newPost, index) => {
+                return recommendedPost(newPost);
+              })
+            }
             {/* </div> */}
           </div>
         </div>
@@ -252,22 +255,6 @@ async function Layout(
 
 export default Layout
 
-function newLetterBox() {
-  return <div className='lg:col-span-1  w-96 mt-12 p-6 mx-auto h-min bg-gray-50 border-t-4 rounded-xl rounded-t-none border-purple-600 '>
-    <div className='  rounded-full p-4 bg-purple-100 inline-flex mb-6'>
-      <SlPaperPlane
-        className='w-5 h-5'
-      ></SlPaperPlane>
-    </div>
-    <h5 className=' text-2xl font-semibold my-2'>
-      Weekly Newsletter
-    </h5>
-    <p className='text-gray-400 font-normal  '>
-      No spam. Just the latest releases and tips, interesting articles, and exclusive interviews in your inbox every week.
-    </p>
-    <EmailBox disableResponsive={true} textbg={true}></EmailBox>
-  </div>;
-}
 
 function findDate(blog: Article) {
   const dateRegex = /^(\d{4})-(\d{2})-(\d{2})T/;
@@ -354,9 +341,9 @@ function Footer() {
   </footer>;
 }
 
-function recommendedPost(blog: Article, posted: string) {
-  posted = findDate(blog);
-  return <div className='max-w-sm my-12 md:mx-2'>
+function recommendedPost(blog: Article) {
+  var posted = findDate(blog);
+  return <div key={blog.id} className='max-w-sm my-12 md:mx-2'>
     <a href={`/blog/${blog.id}`}>
       <img
         className='mb-8'
@@ -388,7 +375,7 @@ async function fetchRecommendations(data: Article[]) {
   for (const article in data) {
     if (Object.prototype.hasOwnProperty.call(data, article)) {
       const element = data[article];
-      const newBlog = await fetchBlog(element.id.toString());
+      const newBlog = await fetchBlog(element.attributes.slug);
       article_list.push(newBlog)
 
     }

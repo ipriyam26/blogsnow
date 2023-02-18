@@ -1,13 +1,8 @@
 'use client';
 import React from 'react';
-import Link from 'next/link';
-import { Fragment } from 'react'
 import { Listbox } from '@headlessui/react'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { redirect, usePathname } from 'next/navigation';
 import { Inter } from '@next/font/google';
-import { useState } from 'react'
 
 interface Category {
     id: number;
@@ -17,20 +12,6 @@ interface Category {
         createdAt: string;
         updatedAt: string;
         publishedAt: string;
-    }
-}
-
-interface Pagination {
-    page: number;
-    pageSize: number;
-    pageCount: number;
-    total: number;
-}
-
-interface CategoryResponse {
-    data: Category[];
-    meta: {
-        pagination: Pagination;
     }
 }
 
@@ -95,9 +76,10 @@ function Localnav(
                     value={selectedPerson?.attributes.title}
                     onChange={
                         (value) => {
-                            // redirect to the link of the selected person
-                            const newSelectedPerson = menus.find((person) => person.attributes.title === value)
-                            redirect(newSelectedPerson!.attributes.slug);
+
+
+                            let newSelectedPerson = menus.find((category) => category.attributes.title === value);
+                          redirect(`http://localhost:3000/${newSelectedPerson?.attributes.slug}`)
                         }
 
                     }
@@ -115,7 +97,8 @@ function Localnav(
                                     <Listbox.Option
                                         className={` p-2.5  border-gray-300 `}
                                         key={person.attributes.title}
-                                        value={person}
+                                        value={person.attributes.title}
+
                                     >
                                         {person.attributes.title}
                                     </Listbox.Option>
