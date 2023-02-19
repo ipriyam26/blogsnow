@@ -129,11 +129,33 @@ function findAuthor(blog: Article) {
 
 }
 
+
+function findWorkingImage(blog: Article) {
+
+  let image = blog.attributes.image;
+  let url = ""
+  try {
+    url = `http://127.0.0.1:1337${image.data.attributes.formats.large.url}`;
+
+  }
+  catch {
+    try {
+
+      url = `http://127.0.0.1:1337${image.data.attributes.formats.medium.url}`;
+    }
+    catch {
+      url = 'https://media.tenor.com/2Cd3eA5jeC4AAAAC/cat-cute.gif'
+    }
+  }
+
+  return url;
+}
+
+
 function validateBlog(blog: Article) {
   // check if author, category,image are defined if they are not substitute with default values
   let author = "Undefined";
   let category = "Undefined";
-  let image = "Undefined";
   try {
     author = blog.attributes.author.data.attributes.Name;
   }
@@ -146,13 +168,7 @@ function validateBlog(blog: Article) {
   catch {
     category = "Undefined";
   }
-  try {
-    image = blog.attributes.image.data.attributes.formats.medium.url;
-  }
-  catch {
-
-    image = "Undefined";
-  }
+  let image = findWorkingImage(blog);
 
   return { author, category, image };
 
@@ -198,7 +214,7 @@ async function Page({
       {
 
         blogs.map((blog, index) => {
-
+          const { author, category, image } = validateBlog(blog);
           const dateRegex = /^(\d{4})-(\d{2})-(\d{2})T/;
           const match = dateRegex.exec(blog.attributes.publishedAt);
 
@@ -214,18 +230,18 @@ async function Page({
                   <img
                     width={600}
                     height={300}
-                    className=' h-60 md:h-72' src={`http://127.0.0.1:1337${blog.attributes.image.data.attributes.formats.large.url}`
+                    className=' h-60 md:h-72' src={image
                     }>
                   </img>
                 </a>
                 <div className="absolute bottom-0 w-full md:py-6  py-4 backdrop-filter backdrop-blur-xl  border-white border-t">
                   <div className="text-white text-sm px-4 flex justify-between   rounded-t-lg">
                     <div>
-                      <p className="font-semibold">{findAuthor(blog)}</p>
+                      <p className="font-semibold">{author}</p>
                       <p className="opacity-80">{posted}</p>
                     </div>
                     <p className="opacity-80 font-semibold">
-                      {blog.attributes.category.data.attributes.title}
+                      {category}
                     </p>
                   </div>
                 </div>

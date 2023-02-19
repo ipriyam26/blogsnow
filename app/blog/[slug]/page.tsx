@@ -153,31 +153,53 @@ function Chip(
 }
 
 
+
+
+
 function findWorkingImage(blog: Article) {
+
   let image = blog.attributes.image;
-  let url = `http://127.0.0.1:1337${image.data.attributes.formats.large.url}`;
-  if (url === null) {
-    url = `http://127.0.0.1:1337${image.data.attributes.formats.medium.url}`;
-  }
-  if (url === null) {
-    url = 'https://media.tenor.com/2Cd3eA5jeC4AAAAC/cat-cute.gif'
+  let url = ""
+  try {
+    url = `http://127.0.0.1:1337${image.data.attributes.formats.large.url}`;
 
   }
+  catch {
+    try {
+
+      url = `http://127.0.0.1:1337${image.data.attributes.formats.medium.url}`;
+    }
+    catch {
+      url = 'https://media.tenor.com/2Cd3eA5jeC4AAAAC/cat-cute.gif'
+    }
+  }
+
   return url;
 }
 
-// function to check if the author is defined if it ain't return dummy data else the author
-function findAuthor(blog: Article) {
+
+function validateBlog(blog: Article) {
+  // check if author, category,image are defined if they are not substitute with default values
   let author = "Undefined";
-  try{
+  let category = "Undefined";
+  try {
     author = blog.attributes.author.data.attributes.Name;
   }
-  catch{
+  catch {
     author = "Undefined";
   }
-  return author;
+  try {
+    category = blog.attributes.category.data.attributes.title;
+  }
+  catch {
+    category = "Undefined";
+  }
+  let image = findWorkingImage(blog);
+
+  return { author, category, image };
 
 }
+
 
 async function Layout(
   {
@@ -193,14 +215,14 @@ async function Layout(
   const posted = findDate(blog); // Output: "15 Feb"
 
 
-
+  const { author, category, image } = validateBlog(blog);
 
   const recommendedPosts = await fetchRecommendations(blog.attributes.recommendations.data);
 
   return (
     <div className={`${inter.className}`}>
       <div className={` lg:py-24 py-16 mx-4 lg:mx-28`}>
-        <Chip category={blog?.attributes.category.data.attributes.title}
+        <Chip category={category}
           timeTORead={blog?.attributes.data.split(' ').length! / 200 | 1}
         ></Chip>
         <h1 className='text-4xl   my-4 font-semibold'>
@@ -213,7 +235,7 @@ async function Layout(
         <Image
           // add maximum
           className='rounded-t-lg lg:h-[32rem] lg:max-w-7xl  h-60 object-cover mb-8 ' src={
-            findWorkingImage(blog)
+            image
           } alt='random'
           width={1216}
           height={516}
@@ -222,8 +244,8 @@ async function Layout(
         <div className='flex'>
           <div className='' >
             <p className='font-semibold text-purple-600 text-sm'>Written by</p>
-{/* show author if it undefined show Undefined as a string */}
-            <h5 className=' text-gray-900 mt-3 text-xl'>{ findAuthor(blog)  }</h5>
+            {/* show author if it undefined show Undefined as a string */}
+            <h5 className=' text-gray-900 mt-3 text-xl'>{author}</h5>
           </div>
           <div className='lg:ml-16 ml-6 md:ml-10' >
             <p className='font-semibold text-purple-600 text-sm'>Published on</p>
@@ -243,7 +265,7 @@ async function Layout(
           {/* <div> */}
 
           <div className='col-span-2'>
-            <hr className='my-4'></hr>
+            <hr className='my-4 lg:hidden'></hr>
             <p className='text-2xl font-semibold '>Popular Posts</p>
             {
               recommendedPosts.map((newPost, index) => {
@@ -359,6 +381,7 @@ function Footer() {
 
 function recommendedPost(blog: Article) {
   var posted = findDate(blog);
+  const { author, category, image } = validateBlog(blog);
   return <div key={blog.id} className='max-w-sm my-12 md:mx-2'>
     <a href={`/blog/${blog.attributes.slug}`}>
       <Image
@@ -366,8 +389,8 @@ function recommendedPost(blog: Article) {
         height={400}
         width={400}
         alt={blog!.attributes.title}
-        src={findWorkingImage(blog)}></Image>
-      <Chip category={blog?.attributes.category.data.attributes.title} timeTORead={blog?.attributes.data.split(' ').length! / 200 | 0}></Chip>
+        src={image}></Image>
+      <Chip category={category} timeTORead={blog?.attributes.data.split(' ').length! / 200 | 1}></Chip>
       <h4 className='mt-4 mb-2 text-2xl font-semibold flex'>
         {blog!.attributes.title}
         <svg xmlns="http://www.w3.org/2000/svg" className='w-10 h-10 ml-2 -mr-1 hover:mr-0' viewBox="0 0 20 20"><g id="Layer_2" data-name="Layer 2"><g id="diagonal-arrow-right-up"><g id="diagonal-arrow-right-up-2" data-name="diagonal-arrow-right-up"><rect style={{ fill: '#fff', opacity: 0 }}
@@ -379,7 +402,7 @@ function recommendedPost(blog: Article) {
       </p>
       <div className=''>
 
-        <h5 className=' text-gray-900 mt-3 text-sm font-semibold'>{findAuthor(blog)}</h5>
+        <h5 className=' text-gray-900 mt-3 text-sm font-semibold'>{author}</h5>
         <h5 className=' text-gray-600 text-sm font-normal'>{posted}</h5>
       </div>
 
@@ -391,15 +414,6 @@ async function fetchRecommendations(data: Article[]) {
     return fetchBlog(article.attributes.slug)
   });
 
-
-  // for (const article in data) {
-  //   if (Object.prototype.hasOwnProperty.call(data, article)) {
-  //     const element = data[article];
-  //     const newBlog = await fetchBlog(element.attributes.slug);
-  //     article_list.push(newBlog)
-
-  //   }
-  // }
 
 
 
