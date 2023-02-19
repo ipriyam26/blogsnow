@@ -78,7 +78,7 @@ function EmailBox(
 
 function Subscribe() {
     return (
-        <div className={`bg-gray-800 ${inter.className} py-24 flex flex-col items-center`}>
+        <div className={`bg-gray-800 ${inter.className} py-24 w-screen flex flex-col items-center`}>
             <h5 className=" text-4xl text-center font-semibold text-white">Sign up for our newsletter</h5>
             <p className=" font-light text-gray-200 text-center text-lg lg:text-xl my-5">Be the first to know about releases and industry news and insights.</p>
             <EmailBox textbg={false} disableResponsive={false} ></EmailBox>

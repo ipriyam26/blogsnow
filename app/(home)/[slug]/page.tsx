@@ -117,6 +117,46 @@ interface Response {
   data: Article[] | [];
 
 }
+function findAuthor(blog: Article) {
+  let author = "Undefined";
+  try {
+    author = blog.attributes.author.data.attributes.Name;
+  }
+  catch {
+    author = "Undefined";
+  }
+  return author;
+
+}
+
+function validateBlog(blog: Article) {
+  // check if author, category,image are defined if they are not substitute with default values
+  let author = "Undefined";
+  let category = "Undefined";
+  let image = "Undefined";
+  try {
+    author = blog.attributes.author.data.attributes.Name;
+  }
+  catch {
+    author = "Undefined";
+  }
+  try {
+    category = blog.attributes.category.data.attributes.title;
+  }
+  catch {
+    category = "Undefined";
+  }
+  try {
+    image = blog.attributes.image.data.attributes.formats.medium.url;
+  }
+  catch {
+
+    image = "Undefined";
+  }
+
+  return { author, category, image };
+
+}
 
 async function fetchBlogs(slug: string) {
   // try {
@@ -152,16 +192,15 @@ async function Page({
 }) {
   let blogs = await fetchBlogs(params.slug);
 
-
   return (
 
     <div className={` ${inter.className} md:mx-8 md:grid md:grid-cols-2 md:justify-start  `} >
       {
 
         blogs.map((blog, index) => {
+
           const dateRegex = /^(\d{4})-(\d{2})-(\d{2})T/;
           const match = dateRegex.exec(blog.attributes.publishedAt);
-
 
           const year = match![1];
           const month = new Date(Number(year), Number(match![2]) - 1, Number(match![3])).toLocaleString('default', { month: 'short' });
@@ -182,7 +221,7 @@ async function Page({
                 <div className="absolute bottom-0 w-full md:py-6  py-4 backdrop-filter backdrop-blur-xl  border-white border-t">
                   <div className="text-white text-sm px-4 flex justify-between   rounded-t-lg">
                     <div>
-                      <p className="font-semibold">{blog.attributes.author.data.attributes.Name}</p>
+                      <p className="font-semibold">{findAuthor(blog)}</p>
                       <p className="opacity-80">{posted}</p>
                     </div>
                     <p className="opacity-80 font-semibold">

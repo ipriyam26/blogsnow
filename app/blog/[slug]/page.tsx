@@ -153,8 +153,31 @@ function Chip(
 }
 
 
+function findWorkingImage(blog: Article) {
+  let image = blog.attributes.image;
+  let url = `http://127.0.0.1:1337${image.data.attributes.formats.large.url}`;
+  if (url === null) {
+    url = `http://127.0.0.1:1337${image.data.attributes.formats.medium.url}`;
+  }
+  if (url === null) {
+    url = 'https://media.tenor.com/2Cd3eA5jeC4AAAAC/cat-cute.gif'
 
+  }
+  return url;
+}
 
+// function to check if the author is defined if it ain't return dummy data else the author
+function findAuthor(blog: Article) {
+  let author = "Undefined";
+  try{
+    author = blog.attributes.author.data.attributes.Name;
+  }
+  catch{
+    author = "Undefined";
+  }
+  return author;
+
+}
 
 async function Layout(
   {
@@ -169,25 +192,13 @@ async function Layout(
   console.log(blog.attributes.title);
   const posted = findDate(blog); // Output: "15 Feb"
 
-  const FeaturedPostData = <div className='md:col-span-1'>
-    <div>
-      <p className=' text-purple-600 font-semibold my-3'>Latest</p>
-      <p className='text-3xl my-3 font-semibold text-gray-900'>From the blog</p>
-      <p className='text-lg text-gray-600 '>Simple, transparent pricing that grows with you. Try any plan free for 30 days.</p>
-    </div>
-    <div className="mt-10 rounded-md hidden md:block sm:flex-shrink-0">
-      <button type="submit" className="flex  items-center justify-center rounded-md border border-transparent bg-purple-600 px-5 py-3 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
-        View all posts
-      </button>
-    </div>
 
-  </div>;
 
 
   const recommendedPosts = await fetchRecommendations(blog.attributes.recommendations.data);
 
   return (
-    <div className={`${inter.className}` }>
+    <div className={`${inter.className}`}>
       <div className={` lg:py-24 py-16 mx-4 lg:mx-28`}>
         <Chip category={blog?.attributes.category.data.attributes.title}
           timeTORead={blog?.attributes.data.split(' ').length! / 200 | 1}
@@ -198,10 +209,12 @@ async function Layout(
         <h3 className='text-xl mb-16  lg:w-3/5 text-gray-600'>
           {blog!.attributes.description}
         </h3>
+
         <Image
-        // add maximum
-          className='rounded-t-lg lg:h-[32rem] lg:max-w-7xl  h-60 object-cover mb-8 ' src={`http://127.0.0.1:1337${blog.attributes.image.data.attributes.formats.large.url}`}
-          alt='random'
+          // add maximum
+          className='rounded-t-lg lg:h-[32rem] lg:max-w-7xl  h-60 object-cover mb-8 ' src={
+            findWorkingImage(blog)
+          } alt='random'
           width={1216}
           height={516}
 
@@ -209,7 +222,8 @@ async function Layout(
         <div className='flex'>
           <div className='' >
             <p className='font-semibold text-purple-600 text-sm'>Written by</p>
-            <h5 className=' text-gray-900 mt-3 text-xl'>{blog!.attributes.author.data.attributes.Name}</h5>
+{/* show author if it undefined show Undefined as a string */}
+            <h5 className=' text-gray-900 mt-3 text-xl'>{ findAuthor(blog)  }</h5>
           </div>
           <div className='lg:ml-16 ml-6 md:ml-10' >
             <p className='font-semibold text-purple-600 text-sm'>Published on</p>
@@ -346,13 +360,13 @@ function Footer() {
 function recommendedPost(blog: Article) {
   var posted = findDate(blog);
   return <div key={blog.id} className='max-w-sm my-12 md:mx-2'>
-    <a href={`/blog/${blog.id}`}>
-      <img
-        className='mb-8'
+    <a href={`/blog/${blog.attributes.slug}`}>
+      <Image
+        className='mb-8 h-60'
         height={400}
         width={400}
         alt={blog!.attributes.title}
-        src={`http://127.0.0.1:1337${blog!.attributes.image.data.attributes.formats.medium.url}`}></img>
+        src={findWorkingImage(blog)}></Image>
       <Chip category={blog?.attributes.category.data.attributes.title} timeTORead={blog?.attributes.data.split(' ').length! / 200 | 0}></Chip>
       <h4 className='mt-4 mb-2 text-2xl font-semibold flex'>
         {blog!.attributes.title}
@@ -365,7 +379,7 @@ function recommendedPost(blog: Article) {
       </p>
       <div className=''>
 
-        <h5 className=' text-gray-900 mt-3 text-sm font-semibold'>{blog!.attributes.author.data.attributes.Name}</h5>
+        <h5 className=' text-gray-900 mt-3 text-sm font-semibold'>{findAuthor(blog)}</h5>
         <h5 className=' text-gray-600 text-sm font-normal'>{posted}</h5>
       </div>
 
@@ -373,8 +387,8 @@ function recommendedPost(blog: Article) {
   </div >;
 }
 async function fetchRecommendations(data: Article[]) {
-  var article_list =  data.map((article) => {
-return fetchBlog(article.attributes.slug)
+  var article_list = data.map((article) => {
+    return fetchBlog(article.attributes.slug)
   });
 
 
@@ -386,7 +400,7 @@ return fetchBlog(article.attributes.slug)
 
   //   }
   // }
-  
+
 
 
 
