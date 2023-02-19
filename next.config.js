@@ -11,7 +11,7 @@ const nextConfig = {
     appDir: true,
   },
   images: {
-    domains: ['media.npr.org', 'loremflickr.com', 'images.unsplash.com', 'tailwindui.com',"localhost"],
+    domains: ['media.npr.org', 'loremflickr.com', 'images.unsplash.com', 'tailwindui.com',"localhost","127.0.0.1"],
   }
 }
 

@@ -187,23 +187,25 @@ async function Layout(
   const recommendedPosts = await fetchRecommendations(blog.attributes.recommendations.data);
 
   return (
-    <div className={`${inter.className}`}>
+    <div className={`${inter.className}` }>
       <div className={` lg:py-24 py-16 mx-4 lg:mx-28`}>
         <Chip category={blog?.attributes.category.data.attributes.title}
-          timeTORead={blog?.attributes.data.split(' ').length! / 200 | 0}
+          timeTORead={blog?.attributes.data.split(' ').length! / 200 | 1}
         ></Chip>
-        <h1 className='text-4xl my-4 font-semibold'>
+        <h1 className='text-4xl   my-4 font-semibold'>
           {blog!.attributes.title}
         </h1>
-        <h3 className='text-xl mb-16 lg:w-3/5 text-gray-600'>
+        <h3 className='text-xl mb-16  lg:w-3/5 text-gray-600'>
           {blog!.attributes.description}
         </h3>
-        <img
-          className='rounded-t-lg h-3/5 object-cover mb-8 ' src={`http://127.0.0.1:1337${blog.attributes.image.data.attributes.formats.large.url}`}
+        <Image
+        // add maximum
+          className='rounded-t-lg lg:h-[32rem] lg:max-w-7xl  h-60 object-cover mb-8 ' src={`http://127.0.0.1:1337${blog.attributes.image.data.attributes.formats.large.url}`}
           alt='random'
-          width={1000}
-          height={1000}
-        ></img>
+          width={1216}
+          height={516}
+
+        ></Image>
         <div className='flex'>
           <div className='' >
             <p className='font-semibold text-purple-600 text-sm'>Written by</p>

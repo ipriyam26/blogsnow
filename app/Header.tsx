@@ -21,7 +21,7 @@ export default function Header() {
     <Disclosure as="nav" className="">
       {({ open }) => (
         <>
-          <div className=" md:mx-10 mx-5 max-w-7xl px-2 sm:px-6 lg:px-8">
+          <div className=" md:mx-10 lg:mx-5  px-2 sm:px-6 lg:px-8 ">
             <div className="relative flex   h-16 items-center justify-between">
               <div className="absolute inset-y-0 right-0 flex items-center justify-end   sm:hidden">
                 {/* Mobile menu button*/}
@@ -72,7 +72,7 @@ export default function Header() {
             </div>
           </div>
 
-          <Disclosure.Panel className={`sm:hidden ${inter.className}`}>
+          <Disclosure.Panel className={`sm:hidden  ${inter.className}`}>
             <div className="space-y-1 px-2 pt-2 pb-3">
               {navigation.map((item) => (
                 <Disclosure.Button
