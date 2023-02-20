@@ -253,7 +253,7 @@ async function Layout(
           </div>
         </div>
         <div className="lg:grid lg:grid-cols-5 gap-14 ">
-          <div className='flex lg:col-span-3'>
+          <div className='flex lg:col-span-3 break-all'>
             <div className='mt-16 prose prose-p:text-lg min-w-full flex flex-col'>
               <ReactMarkdown skipHtml={true}
                 remarkPlugins={[remarkGfm]}
